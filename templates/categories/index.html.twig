@@ -1,0 +1,21 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block content %}
+    <h1>Categories List</h1>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <h2><a href="{{ path('categories.add') }}">Add a category</a></h2>
+    {% endif %}
+
+    <ul>
+        {% for category in categories %}
+            <li>
+                <h3>{{ category.id }}</h3>
+                <h3>{{ category.name }}</h3>
+                <a href="{{ path('categories.postsByCategory', {'category': category.id}) }}">Browse Posts</a>
+                <hr>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

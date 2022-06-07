@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}My Application{% endblock %}</title>
+</head>
+<body>
+<p>
+    {% for message in app.flashes('notice') %}
+    <div class="flash-notice">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <p>Hello, {{ app.user.email }}</p>
+    {% endif %}
+</p>
+<br>
+{% block body %}
+    <div id="sidebar">
+        {% block sidebar %}
+            <ul>
+                <li><a href="{{ path('home') }}">Home</a></li>
+                {% if not is_granted('ROLE_USER') %}
+                    <li><a href="{{ path('login') }}">Log In</a></li>
+                {% endif %}
+                <li><a href="{{ path('posts.browse') }}">Posts</a></li>
+                <li><a href="{{ path('categories.browse') }}">Categories</a></li>
+                {% if is_granted('ROLE_USER') %}
+                    <p></p>
+                    <li><a href="{{ path('app_logout') }}">Logout</a></li>
+                {% endif %}
+            </ul>
+        {% endblock %}
+    </div>
+
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+{% endblock %}
+</body>
+</html>
